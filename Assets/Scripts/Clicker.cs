@@ -9,6 +9,20 @@ public class Clicker : MonoBehaviour
     [Header("Animation Setting")]
     public Ease ease;
     public AudioSource audioSource;
+    public ParticleSystem particles;
+
+    public int Clicks {
+        get
+        {
+             return clicks;
+        }
+        set
+        {
+            particles.Emit(value -clicks);
+            clicks = value;
+            UIManager.instance.UpdateClicks(Clicks);
+        }}
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +38,7 @@ public class Clicker : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        clicks++;
-        UIManager.instance.UpdateClicks(clicks);
+        Clicks++;
         audioSource.Play();
         transform.DOScale(Vector3.one, 0.1f)
             .ChangeStartValue(Vector3.one * 1.5f)
